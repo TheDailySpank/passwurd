@@ -1,0 +1,11 @@
+<?
+
+use App\MyHash;
+
+// find all duplicate SHA1 hashes
+$hashes = MyHash::groupBy('sha1')->having('sha1', '>', 1)->take(10)->pluck('sha1')->get();
+
+// delete duplicate SHA1 without password
+foreach ($hashes as $hash) {
+    MyHash::where('sha1', $sha1)->where('password', null)->delete();
+}
